@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  postgresql-services:
+    image: postgres:16.0-alpine
+    container_name: postgresql-services
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+      PGDATA: /var/lib/postgres/data
+    volumes:
+      - 'postgresql_services:/var/lib/postgres/data'
+    ports:
+      - "5554:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4:8.5
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@example.de
+      PGADMIN_DEFAULT_PASSWORD: password
+    volumes:
+      - 'pgadmin_services_data:/etc/pgadmin/'
+      - 'pgadmin_services_config:/var/lib/pgadmin/'
+    ports:
+      - "5555:80"
+    depends_on:
+      - postgresql-services
+
+volumes:
+  postgresql_services:
+    driver: local
+  pgadmin_services_data:
+    driver: local
+  pgadmin_services_config:
+    driver: local
