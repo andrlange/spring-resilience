@@ -2,7 +2,16 @@
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/address-service/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/address-service/target" />
+      <excludeFolder url="file://$MODULE_DIR$/eureka-server/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/eureka-server/target" />
+      <excludeFolder url="file://$MODULE_DIR$/spring-cloud-gateway/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/spring-cloud-gateway/target" />
+      <excludeFolder url="file://$MODULE_DIR$/student-service/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/student-service/target" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
