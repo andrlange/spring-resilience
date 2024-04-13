@@ -3,6 +3,7 @@ package cool.cfapps.studentservice.controller;
 import cool.cfapps.studentservice.dto.StudentRequest;
 import cool.cfapps.studentservice.dto.StudentResponse;
 import cool.cfapps.studentservice.service.StudentService;
+import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,11 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
+    @Observed(
+            name = "user.name",
+            contextualName = "student-->address",
+            lowCardinalityKeyValues = {"userType","userType2"}
+    )
     public ResponseEntity<StudentResponse> getStudentById(@PathVariable Long id) {
         return studentService.getStudent(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }

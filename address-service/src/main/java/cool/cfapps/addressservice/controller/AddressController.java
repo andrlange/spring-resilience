@@ -3,6 +3,7 @@ package cool.cfapps.addressservice.controller;
 import cool.cfapps.addressservice.dto.AddressRequest;
 import cool.cfapps.addressservice.dto.AddressResponse;
 import cool.cfapps.addressservice.service.AddressService;
+import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,13 @@ public class AddressController {
     public List<AddressResponse> getAllAddresses(){
         return addressService.findAll();
     }
+
     @GetMapping("/{id}")
+    @Observed(
+            name = "user.name",
+            contextualName = "address-->database",
+            lowCardinalityKeyValues = {"userType","userType2"}
+    )
     public ResponseEntity<AddressResponse> getAddressById(@PathVariable Long id){
         log.info("get address with id: {}",id);
         Optional<AddressResponse> result = addressService.findById(id);

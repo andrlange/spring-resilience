@@ -28,6 +28,12 @@ services:
     depends_on:
       - postgresql-services
 
+  open-zipkin:
+    image: openzipkin/zipkin
+    container_name: open-zipkin
+    ports:
+      - "9411:9411"
+
 volumes:
   postgresql_services:
     driver: local
