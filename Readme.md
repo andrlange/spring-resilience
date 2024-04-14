@@ -20,6 +20,12 @@ Services:
 
 application.properties will show you the configuration of used Spring Components
 
+Startorder:
+- Eureka Server
+- Config Server
+- Spring Cloud Gateway
+- Student Servie & Address Service
+
 ## URLs
 - Eureka > http://localhost:8761
 - Zipkin > http://localhost:9411
