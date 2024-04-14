@@ -1,5 +1,7 @@
-# Spring Resilience Demo v1.0
+# Spring Resilience Demo v1.1
 
+(EUREKA, SPRING CLOUD CONFIG SERVER, SPRING CLOUD GATEWAY, CIRCUIT BREAKER, ACTUATORS, MICROMETER, ZIPKIN, FEIGN, 
+RESILIENCE4J)
 ## Setup
 - you can run PostgreSQL using the docker-compose.yaml
 - Create to additional Databases (addresses, students)
@@ -11,8 +13,9 @@ PostgreSQL, PGAdmin and Zipkin is started using docker compose up -d
 
 Services:
 - Eureka Service as Microservice and Gateway Registry
+- Spring Cloud Config Server using https://github.com/andrlange/spring-resilience.git path=config
 - Spring Cloud Gateway for routing and load balancing (Actuators, Zipkin and Micrometer)
-- Student-Service (resilience4j, Spring AOP, CircuitBreaker, FeignClient, Actuators, Zipkin and Micrometer)
+- Student-Service (resilience4j, Spring AOP, Circuit Breaker, Feign Client, Actuators, Zipkin and Micrometer)
 - Address-Service (Actuators, Zipkin and Micrometer)
 
 application.properties will show you the configuration of used Spring Components
