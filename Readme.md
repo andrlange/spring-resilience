@@ -20,11 +20,11 @@ Services:
 
 application.properties will show you the configuration of used Spring Components
 
-Startorder:
+Start order:
 - Eureka Server
 - Config Server
 - Spring Cloud Gateway
-- Student Servie & Address Service
+- Student Service & Address Service
 
 ## URLs
 - Eureka > http://localhost:8761
