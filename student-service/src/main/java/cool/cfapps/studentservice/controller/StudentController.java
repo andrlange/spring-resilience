@@ -3,6 +3,7 @@ package cool.cfapps.studentservice.controller;
 import cool.cfapps.studentservice.dto.StudentRequest;
 import cool.cfapps.studentservice.dto.StudentResponse;
 import cool.cfapps.studentservice.service.StudentService;
+import io.github.resilience4j.bulkhead.BulkheadFullException;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.core.functions.CheckedSupplier;
 import io.micrometer.observation.annotation.Observed;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -42,9 +44,16 @@ public class StudentController {
 
 
     @GetMapping
-    @Bulkhead(name = "bulkheadWithConcurrentCalls", type = Bulkhead.Type.SEMAPHORE)
+    @Bulkhead(name = "bulkheadWithConcurrentCalls")
     public List<StudentResponse> getAllStudents() {
-        return studentService.getAllStudents();
+
+        List<StudentResponse> studentResponses = new ArrayList<>();
+        try{
+            studentResponses=studentService.getAllStudents();
+        }catch (BulkheadFullException e) {
+            log.error("Bulkhead 'bulkheadWithConcurrentCalls' is full and does not permit further calls");
+        }
+        return studentResponses;
     }
 
     @DeleteMapping("/{id}")

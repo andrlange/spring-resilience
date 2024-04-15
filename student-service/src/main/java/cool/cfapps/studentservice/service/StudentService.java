@@ -68,7 +68,8 @@ public class StudentService {
 
     }
 
-    public List<StudentResponse> getAllStudents() {
+    public List<StudentResponse> getAllStudents(){
+        try{Thread.sleep(500);} catch (InterruptedException e) {}
         List<StudentEntity> students = studentRepository.findAll();
         List<StudentResponse> studentResponses = new ArrayList<>();
         students.forEach(student -> {
