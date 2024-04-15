@@ -15,6 +15,7 @@ import java.util.Optional;
 public class FlakyService {
 
     private int cnt = 1;
+    private int retryCnt = 0;
     private final AddressFeignClient addressFeignClient;
 
     public FlakyService(AddressFeignClient addressFeignClient) {
@@ -24,11 +25,14 @@ public class FlakyService {
 
     @Retry(name = "flakyRetry")
     public Optional<FlakyDto> getFlakyByCode(String code) {
-
-        log.info("getFlakyByCode: {} : call: {}", code,cnt);
+        retryCnt++;
+        log.info("getFlakyByCode: {} : call: {}:{}", code, cnt, retryCnt);
         FlakyDto dto = addressFeignClient.getFlakyByCode(code);
-        if(dto == null) {throw new RuntimeException();}
+        if (dto == null) {
+            throw new RuntimeException();
+        }
         cnt++;
+        retryCnt = 0;
         return Optional.of(dto);
     }
 
