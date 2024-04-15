@@ -2,11 +2,14 @@
 
 (EUREKA, SPRING CLOUD CONFIG SERVER, SPRING CLOUD GATEWAY, CIRCUIT BREAKER, ACTUATORS, MICROMETER, ZIPKIN, FEIGN, 
 RESILIENCE4J)
+
+![Resilience Demo](docs/Resilience-Demo.png)
 ## Setup
 - you can run PostgreSQL using the docker-compose.yaml
-- Create to additional Databases (addresses, students)
+- Create to additional Databases (addresses, students) using PGAdmin
 
 PostgreSQL, PGAdmin and Zipkin is started using docker compose up -d
+PGAdmin: Register DB-Server using hostname: postgresql-service, user:postgres, password:password
 
 
 ## Run Environment
@@ -37,7 +40,14 @@ address microservices on different ports.
 - Zipkin > http://localhost:9411
 - Student using the Gateway: http://localhost:9090/student-service/api/v1/student/0
 - Student retries: http://localhost:9090/student-service/api/v1/flaky/code/BIO
+- PGAdmin: http://localhost:5555
 
+After all Services are started:
 
+![Eureka](docs/eureka.png)
+
+Example on calling student/0 and searching the traceId in Zipkin
+
+![Zipkin](docs/zipkin.png)
 
 (Maintainer: Andreas Lange)
