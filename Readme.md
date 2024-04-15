@@ -3,7 +3,7 @@
 (EUREKA, SPRING CLOUD CONFIG SERVER, SPRING CLOUD GATEWAY, CIRCUIT BREAKER, ACTUATORS, MICROMETER, ZIPKIN, FEIGN, 
 RESILIENCE4J)
 
-![Resilience Demo](docs/Resilience-Demo.png)
+![Resilience Demo](docs/resilience-demo.png)
 ## Setup
 - you can run PostgreSQL using the docker-compose.yaml
 - Create to additional Databases (addresses, students) using PGAdmin
