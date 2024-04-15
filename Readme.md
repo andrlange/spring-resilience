@@ -26,6 +26,9 @@ Start order:
 - Spring Cloud Gateway
 - Student Service & Address Service
 
+Note: to run multiple services for each, just export PORT=80xx to your environment and start multiple student or 
+address microservices on different ports.
+
 ## URLs
 - Eureka > http://localhost:8761
 - Zipkin > http://localhost:9411
