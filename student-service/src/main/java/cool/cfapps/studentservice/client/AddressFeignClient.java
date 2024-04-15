@@ -14,6 +14,9 @@ public interface AddressFeignClient {
     @GetMapping("/address-service/api/v1/address/{id}")
     AddressResponse getAddressById(@PathVariable Long id);// throws Exception;
 
+    @GetMapping("/address-service/api/v1/address/nolimit/{id}")
+    AddressResponse getAddressByIdNoLimit(@PathVariable Long id);
+
     @PostMapping("/address-service/api/v1/address/")
     AddressResponse createAddress(AddressEmbedded addressEmbedded) throws Exception;
 

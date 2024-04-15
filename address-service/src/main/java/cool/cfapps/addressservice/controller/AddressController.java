@@ -54,6 +54,19 @@ public class AddressController {
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(result.get());
     }
 
+    @GetMapping("/nolimit/{id}")
+    @Observed(
+            name = "user.name",
+            contextualName = "address-->database",
+            lowCardinalityKeyValues = {"userType", "userType2"}
+    )
+    public ResponseEntity<AddressResponse> getUnlimitedAddressById(@PathVariable Long id) {
+        log.info("get address with no limit id: {}", id);
+        Optional<AddressResponse> result = addressService.findById(id);
+        return result.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+
 
     @PostMapping
     public ResponseEntity<AddressResponse> createAddress(@RequestBody AddressRequest addressRequest) {

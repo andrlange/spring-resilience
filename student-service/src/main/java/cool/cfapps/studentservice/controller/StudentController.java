@@ -3,6 +3,7 @@ package cool.cfapps.studentservice.controller;
 import cool.cfapps.studentservice.dto.StudentRequest;
 import cool.cfapps.studentservice.dto.StudentResponse;
 import cool.cfapps.studentservice.service.StudentService;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,8 @@ public class StudentController {
         return studentService.createStudent(studentRequest).map(ResponseEntity::ok).orElse(ResponseEntity.badRequest().build());
     }
 
+
+    @Bulkhead(name = "bulkheadWithConcurrentCalls")
     @GetMapping
     public List<StudentResponse> getAllStudents() {
         return studentService.getAllStudents();

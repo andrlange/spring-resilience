@@ -72,7 +72,7 @@ public class StudentService {
         List<StudentResponse> studentResponses = new ArrayList<>();
         students.forEach(student -> {
             long addressId = student.getAddressId();
-            Optional<AddressResponse> address = commonService.getStudentAddress(addressId);
+            Optional<AddressResponse> address = commonService.getStudentAddressNoLimit(addressId);
             StudentResponse studentResponse = ConverterUtil.entityToDto(student);
             studentResponse.setAddress(new AddressEmbedded());
             address.ifPresent(addressResponse -> studentResponse.setAddress(ConverterUtil.dtoToDto(addressResponse)));

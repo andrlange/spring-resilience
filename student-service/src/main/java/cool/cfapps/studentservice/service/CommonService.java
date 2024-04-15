@@ -28,6 +28,11 @@ public class CommonService {
         return Optional.of(response);
     }
 
+    public Optional<AddressResponse> getStudentAddressNoLimit(Long addressId) {
+        AddressResponse response = addressFeignClient.getAddressByIdNoLimit(addressId);
+        return Optional.of(response);
+    }
+
     public Optional<AddressResponse> getStudentAddressFallback(Long addressId, Throwable th) {
         log.error("Address service did not returned with cnt:{} a valid address for: {} -> falling back", cnt,
                 addressId);
