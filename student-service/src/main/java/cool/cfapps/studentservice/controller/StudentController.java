@@ -29,7 +29,7 @@ public class StudentController {
     @Observed(
             name = "user.name",
             contextualName = "student-->address",
-            lowCardinalityKeyValues = {"userType","userType2"}
+            lowCardinalityKeyValues = {"userType", "userType2"}
     )
     public ResponseEntity<StudentResponse> getStudentById(@PathVariable Long id) {
         return studentService.getStudent(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
@@ -42,15 +42,14 @@ public class StudentController {
     }
 
 
-
     @GetMapping
     @Bulkhead(name = "bulkheadWithConcurrentCalls")
     public List<StudentResponse> getAllStudents() {
 
         List<StudentResponse> studentResponses = new ArrayList<>();
-        try{
-            studentResponses=studentService.getAllStudents();
-        }catch (BulkheadFullException e) {
+        try {
+            studentResponses = studentService.getAllStudents();
+        } catch (BulkheadFullException e) {
             log.error("Bulkhead 'bulkheadWithConcurrentCalls' is full and does not permit further calls");
         }
         return studentResponses;
