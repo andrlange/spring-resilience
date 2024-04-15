@@ -4,6 +4,7 @@ import cool.cfapps.studentservice.dto.StudentRequest;
 import cool.cfapps.studentservice.dto.StudentResponse;
 import cool.cfapps.studentservice.service.StudentService;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.core.functions.CheckedSupplier;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
