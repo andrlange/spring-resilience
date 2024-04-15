@@ -39,8 +39,9 @@ public class StudentController {
     }
 
 
-    @Bulkhead(name = "bulkheadWithConcurrentCalls")
+
     @GetMapping
+    @Bulkhead(name = "bulkheadWithConcurrentCalls", type = Bulkhead.Type.SEMAPHORE)
     public List<StudentResponse> getAllStudents() {
         return studentService.getAllStudents();
     }

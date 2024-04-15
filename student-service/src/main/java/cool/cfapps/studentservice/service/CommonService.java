@@ -2,6 +2,7 @@ package cool.cfapps.studentservice.service;
 
 import cool.cfapps.studentservice.client.AddressFeignClient;
 import cool.cfapps.studentservice.dto.AddressResponse;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
