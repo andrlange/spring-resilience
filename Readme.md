@@ -15,7 +15,8 @@ Services:
 - Eureka Service as Microservice and Gateway Registry
 - Spring Cloud Config Server using https://github.com/andrlange/spring-resilience.git path=config
 - Spring Cloud Gateway for routing and load balancing (Actuators, Zipkin and Micrometer)
-- Student-Service (resilience4j, Spring AOP, Circuit Breaker, Feign Client, Actuators, Zipkin and Micrometer, Retry)
+- Student-Service (resilience4j, Spring AOP, Circuit Breaker, Feign Client, Actuators, Zipkin and Micrometer, Retry, 
+  Bulkhead)
 - Address-Service (Actuators, Zipkin and Micrometer, RateLimiter)
 - Flaky-Service (Actuators, Zipkin and Micrometer) returns Randomly Courses
 
