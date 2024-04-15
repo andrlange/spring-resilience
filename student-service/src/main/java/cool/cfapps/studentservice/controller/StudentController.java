@@ -5,7 +5,6 @@ import cool.cfapps.studentservice.dto.StudentResponse;
 import cool.cfapps.studentservice.service.StudentService;
 import io.github.resilience4j.bulkhead.BulkheadFullException;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
-import io.github.resilience4j.core.functions.CheckedSupplier;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +48,7 @@ public class StudentController {
         List<StudentResponse> studentResponses = new ArrayList<>();
         try {
             studentResponses = studentService.getAllStudents();
+            log.info("getAllStudents: {}", (long) studentResponses.size());
         } catch (BulkheadFullException e) {
             log.error("Bulkhead 'bulkheadWithConcurrentCalls' is full and does not permit further calls");
         }
