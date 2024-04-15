@@ -18,4 +18,5 @@ public class AddressResponse {
     private String zipCode;
     private String country;
     private boolean fallback = false;
+    private boolean failure = false;
 }

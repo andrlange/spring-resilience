@@ -6,8 +6,11 @@ import cool.cfapps.addressservice.service.AddressService;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.function.EntityResponse;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,10 +46,12 @@ public class AddressController {
 
     public ResponseEntity<AddressResponse> addressErrorResponse(@PathVariable Long id, Throwable th) {
         log.info("fallback on rate limit hit");
+
         Optional<AddressResponse> result = Optional.of(AddressResponse.builder()
                 .failure(true)
                 .build());
-        return result.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(result.get());
     }
 
 

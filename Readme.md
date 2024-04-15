@@ -16,7 +16,7 @@ Services:
 - Spring Cloud Config Server using https://github.com/andrlange/spring-resilience.git path=config
 - Spring Cloud Gateway for routing and load balancing (Actuators, Zipkin and Micrometer)
 - Student-Service (resilience4j, Spring AOP, Circuit Breaker, Feign Client, Actuators, Zipkin and Micrometer)
-- Address-Service (Actuators, Zipkin and Micrometer)
+- Address-Service (Actuators, Zipkin and Micrometer, RateLimiter)
 
 application.properties will show you the configuration of used Spring Components
 
