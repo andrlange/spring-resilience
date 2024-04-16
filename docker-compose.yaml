@@ -34,3 +34,18 @@ services:
     container_name: open-zipkin
     ports:
       - "9411:9411"
+
+  prometheus-service:
+    image: bitnami/prometheus
+    container_name: prometheus-service
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - './vols/prometheus_service:/opt/bitnami/prometheus/data'
+      - './prometheus.yaml:/opt/bitnami/prometheus/conf/prometheus.yml'
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"

@@ -1,0 +1,37 @@
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['prometheus-server:9090']
+
+  - job_name: 'address-service'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 2s
+    static_configs:
+      - targets: ['address-service:8082']
+        labels:
+          group: 'dev'
+
+  - job_name: 'student-service'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 2s
+    static_configs:
+      - targets: ['student-service:8080']
+        labels:
+          group: 'dev'
+
+  - job_name: 'flaky-service'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 2s
+    static_configs:
+      - targets: ['flaky-service:8085']
+        labels:
+          group: 'dev'
+
+  - job_name: 'spring-cloud-gateway'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 2s
+    static_configs:
+      - targets: ['spring-cloud-gateway:9000']
+        labels:
+          group: 'dev'
