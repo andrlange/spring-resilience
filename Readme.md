@@ -1,4 +1,4 @@
-# Spring Resilience Demo v1.1
+# Spring Resilience Demo v1.2
 
 (EUREKA, SPRING CLOUD CONFIG SERVER, SPRING CLOUD GATEWAY, CIRCUIT BREAKER, ACTUATORS, MICROMETER, ZIPKIN, FEIGN, 
 RESILIENCE4J)
@@ -6,11 +6,11 @@ RESILIENCE4J)
 ![Resilience Demo](docs/resilience-demo.png)
 ## Setup
 - you can run PostgreSQL using the docker-compose.yaml
-- Create to additional Databases (addresses, students) using PGAdmin
+- Additional Databases (addresses, students) are created on first postgres startup
 
 PostgreSQL, PGAdmin and Zipkin is started using docker compose up -d
 PGAdmin: Register DB-Server using hostname: postgresql-service, user:postgres, password:password
-
+Eurka-Server: Loginto Eureka using user:eureka password:password
 
 ## Run Environment
 

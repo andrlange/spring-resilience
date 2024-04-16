@@ -11,7 +11,8 @@ services:
       POSTGRES_DB: postgres
       PGDATA: /var/lib/postgres/data
     volumes:
-      - 'postgresql_services:/var/lib/postgres/data'
+      - './vols/postgresql_services:/var/lib/postgres/data'
+      - './init-database.sh:/docker-entrypoint-initdb.d/init-database.sh'
     ports:
       - "5554:5432"
 
@@ -21,8 +22,8 @@ services:
       PGADMIN_DEFAULT_EMAIL: user@example.de
       PGADMIN_DEFAULT_PASSWORD: password
     volumes:
-      - 'pgadmin_services_data:/etc/pgadmin/'
-      - 'pgadmin_services_config:/var/lib/pgadmin/'
+      - './vols/pgadmin_services_data:/etc/pgadmin/'
+      - './vols/pgadmin_services_config:/var/lib/pgadmin/'
     ports:
       - "5555:80"
     depends_on:
@@ -33,11 +34,3 @@ services:
     container_name: open-zipkin
     ports:
       - "9411:9411"
-
-volumes:
-  postgresql_services:
-    driver: local
-  pgadmin_services_data:
-    driver: local
-  pgadmin_services_config:
-    driver: local
