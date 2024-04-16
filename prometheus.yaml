@@ -11,6 +11,7 @@ scrape_configs:
       - targets: ['host.docker.internal:8082']
         labels:
           group: 'dev'
+          service: 'address-service'
 
   - job_name: 'student-service'
     metrics_path: '/actuator/prometheus'
@@ -19,6 +20,7 @@ scrape_configs:
       - targets: ['host.docker.internal:8080']
         labels:
           group: 'dev'
+          service: 'student-service'
 
   - job_name: 'flaky-service'
     metrics_path: '/actuator/prometheus'
@@ -27,6 +29,7 @@ scrape_configs:
       - targets: ['host.docker.internal:8085']
         labels:
           group: 'dev'
+          service: 'flaky-service'
 
   - job_name: 'spring-cloud-gateway'
     metrics_path: '/actuator/prometheus'
@@ -35,3 +38,4 @@ scrape_configs:
       - targets: ['host.docker.internal:9000']
         labels:
           group: 'dev'
+          service: 'spring-cloud-gateway'

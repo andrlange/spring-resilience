@@ -54,5 +54,6 @@ services:
       - "3000:3000"
     volumes:
       - './grafana.ini:/opt/bitnami/grafana/conf/grafana.ini'
+      - './vols/grafana/:/opt/bitnami/grafana/data/'
 
 
