@@ -38,8 +38,8 @@ address microservices on different ports.
 ## URLs
 - Eureka > http://localhost:8761
 - Zipkin > http://localhost:9411
-- Student using the Gateway: http://localhost:9090/student-service/api/v1/student/0
-- Student retries: http://localhost:9090/student-service/api/v1/flaky/code/BIO
+- Student using the Gateway: http://localhost:9000/student-service/api/v1/student/0
+- Student retries: http://localhost:9000/student-service/api/v1/flaky/code/BIO
 - PGAdmin: http://localhost:5555
 
 After all Services are started:
