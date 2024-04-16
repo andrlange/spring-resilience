@@ -44,8 +44,15 @@ services:
     volumes:
       - './vols/prometheus_service:/opt/bitnami/prometheus/data'
       - './prometheus.yaml:/opt/bitnami/prometheus/conf/prometheus.yml'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
 
   grafana:
-    image: grafana/grafana
+    image: bitnami/grafana
     ports:
       - "3000:3000"
+    volumes:
+      - './grafana.ini:/opt/bitnami/grafana/conf/grafana.ini'
+
+
