@@ -23,19 +23,28 @@ public class FlakyController {
     }
 
     @GetMapping("/all")
+
     public ResponseEntity<List<FlakyDto>> getAll() {
+
+        log.info("get all flaky courses");
         return ResponseEntity.ok(flakyService.getAllFlakyDtos());
     }
 
+    /*
+     * getByCode returns a course code if it exists, otherwise returns a 404
+     * 50% of all calls will return a 500 Internal Server Error to simulate a flaky service
+     *
+     */
     @GetMapping("/code/{code}")
     public ResponseEntity<FlakyDto> getByCode(@PathVariable String code) {
-       double rand =  (Math.random());
-        if(rand < 0.5) {
+        double rand = (Math.random());
+        if (rand < 0.5) {
+            log.info("return 500 Internal Server Error");
             return ResponseEntity.status(500).build();
         }
 
-         FlakyDto flakyDto = flakyService.getFlakyDtoByCode(code).orElse(null);
-        log.info("Course:"+flakyDto);
+        FlakyDto flakyDto = flakyService.getFlakyDtoByCode(code).orElse(null);
+        log.info("return Course:" + flakyDto);
         return flakyService.getFlakyDtoByCode(code).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 
     }
