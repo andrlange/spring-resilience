@@ -37,6 +37,10 @@ RESILIENCE4J)
 - Actuator Integration with Prometheus
 - Grafana Dashboards (Standard metrics and resilience4j metrics)
 
+***
+
+## The Demo Setup
+
 ![Resilience Demo](images/resilience-demo.png)
 
 ## Setup
