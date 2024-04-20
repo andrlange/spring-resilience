@@ -24,12 +24,10 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
     private final CommonService commonService;
-    private final AddressFeignClient addressFeignClient;
 
-    public StudentService(StudentRepository studentRepository, CommonService commonService, AddressFeignClient addressFeignClient) {
+    public StudentService(StudentRepository studentRepository, CommonService commonService) {
         this.studentRepository = studentRepository;
         this.commonService = commonService;
-        this.addressFeignClient = addressFeignClient;
     }
 
 
@@ -47,26 +45,6 @@ public class StudentService {
         }
     }
 
-    public Optional<StudentResponse> createStudent(StudentRequest studentRequest) {
-        StudentEntity studentEntity = ConverterUtil.dtoToEntity(studentRequest);
-        AddressEmbedded addressEmbedded = studentRequest.getAddress();
-
-        try {
-            log.info("try to create address: {}", addressEmbedded);
-            AddressResponse addressResponse = addressFeignClient.createAddress(addressEmbedded);
-            log.info("address created: {}", addressResponse);
-            studentEntity.setAddressId(addressResponse.getId());
-            log.info("try to create student: {}", studentEntity);
-            StudentEntity result = studentRepository.save(studentEntity);
-            StudentResponse response = ConverterUtil.entityToDto(result);
-            response.setAddress(ConverterUtil.dtoToDto(addressResponse));
-            return Optional.of(response);
-        } catch (Exception e) {
-            log.info("Student not created: {}", studentRequest);
-            return Optional.empty();
-        }
-
-    }
 
     public List<StudentResponse> getAllStudents(){
         try{Thread.sleep(500);} catch (InterruptedException e) {}
@@ -84,56 +62,4 @@ public class StudentService {
         return studentResponses;
     }
 
-    public boolean deleteStudent(Long id) {
-        Optional<StudentEntity> student = studentRepository.findById(id);
-        if (student.isPresent()) {
-            long addressId = student.get().getAddressId();
-            try {
-                addressFeignClient.deleteAddressById(addressId);
-                studentRepository.delete(student.get());
-                return true;
-            } catch (Exception e) {
-                log.info("Student not deleted id: {}", id);
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    public Optional<StudentResponse> updateStudent(Long id, StudentRequest studentRequest) {
-
-        log.info("try to update student: {}", studentRequest);
-        Optional<StudentEntity> student = studentRepository.findById(id);
-        if (student.isPresent()) {
-            AddressEmbedded addressEmbedded = studentRequest.getAddress();
-            long addressId = student.get().getAddressId();
-            try {
-                AddressResponse addressResponse = addressFeignClient.getAddressById(addressId);
-                AddressEmbedded address = ConverterUtil.dtoToDto(addressResponse);
-                if (!address.equals(addressEmbedded)) {
-                    addressFeignClient.updateAddressById(addressId, addressEmbedded);
-                }
-            } catch (Exception e) {
-                log.info("Student not updated id: {}", id);
-            }
-            StudentEntity newStudent = StudentEntity.builder()
-                    .id(id)
-                    .firstName(studentRequest.getFirstName())
-                    .lastName(studentRequest.getLastName())
-                    .email(studentRequest.getEmail())
-                    .addressId(addressId)
-                    .build();
-
-            if (!student.get().equalsWithoutAddress(studentRequest)) {
-                log.info("try to update student core data: {}", newStudent);
-                newStudent = studentRepository.save(newStudent);
-            }
-
-            StudentResponse response = ConverterUtil.entityToDto(newStudent);
-            response.setAddress(addressEmbedded);
-            return Optional.of(response);
-        }
-        return Optional.empty();
-    }
 }

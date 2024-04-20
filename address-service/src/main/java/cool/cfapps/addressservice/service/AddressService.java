@@ -28,34 +28,4 @@ public class AddressService {
     public Optional<AddressResponse> findById(Long id) {
         return ConverterUtils.entityToDto(addressRepository.findById(id));
     }
-
-    public Optional<AddressResponse> create(AddressRequest addressRequest) {
-        if (addressRequest == null) {
-            return Optional.empty();
-        } else {
-            AddressEntity result = addressRepository.save(ConverterUtils.dtoToEntity(addressRequest));
-            return Optional.of(ConverterUtils.entityToDto(result));
-        }
-    }
-
-    public boolean delete(Long id) {
-        boolean isPresent = addressRepository.findById(id).isPresent();
-        log.info("Address:"+id+":"+isPresent);
-        if (isPresent) {
-            addressRepository.deleteById(id);
-        }
-        return isPresent;
-    }
-
-    public Optional<AddressResponse> update(Long id, AddressRequest addressRequest) {
-        Optional<AddressEntity> addressEntity = addressRepository.findById(id);
-        if(addressEntity.isPresent()){
-            AddressEntity entity = ConverterUtils.dtoToEntity(addressRequest);
-            entity.setId(id);
-            return Optional.of(ConverterUtils.entityToDto(addressRepository.save(entity)));
-        }
-        else {
-            return Optional.empty();
-        }
-    }
 }

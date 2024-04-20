@@ -17,18 +17,12 @@ public interface AddressFeignClient {
     @GetMapping("/address-service/api/v1/address/nolimit/{id}")
     AddressResponse getAddressByIdNoLimit(@PathVariable Long id);
 
-    @PostMapping("/address-service/api/v1/address/")
-    AddressResponse createAddress(AddressEmbedded addressEmbedded) throws Exception;
-
-    @DeleteMapping("/address-service/api/v1/address//{id}")
-    void deleteAddressById(@PathVariable Long id) throws Exception;
-
-    @PutMapping("/address-service/api/v1/address//{id}")
-    void updateAddressById(@PathVariable Long id, @RequestBody AddressEmbedded addressEmbedded) throws Exception;
-
     @GetMapping("/flaky-service/flaky/code/{code}")
     FlakyDto getFlakyByCode(@PathVariable String code);
 
     @GetMapping("/flaky-service/flaky/all")
     List<FlakyDto> getAllFlaky();
+
+    @GetMapping("/flaky-service/flaky/version")
+    String getVersionFlaky();
 }

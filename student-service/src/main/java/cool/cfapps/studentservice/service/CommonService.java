@@ -23,8 +23,7 @@ public class CommonService {
     @CircuitBreaker(name = "addressService", fallbackMethod = "getStudentAddressFallback")
     public Optional<AddressResponse> getStudentAddress(Long addressId) {
         cnt++;
-        log.info("Calling address service with cnt: {}", cnt);
-        //if(cnt % 2 == 0) {throw new RuntimeException();}
+        log.info("Calling address service cnt: {}", cnt);
         AddressResponse response = addressFeignClient.getAddressById(addressId);
         return Optional.of(response);
     }
@@ -32,19 +31,6 @@ public class CommonService {
     public Optional<AddressResponse> getStudentAddressNoLimit(Long addressId) {
         AddressResponse response = addressFeignClient.getAddressByIdNoLimit(addressId);
         return Optional.of(response);
-    }
-
-    public Optional<AddressResponse> getStudentAddressFallback(Long addressId, Throwable th) {
-        log.error("Address service did not returned with cnt:{} a valid address for: {} -> falling back", cnt,
-                addressId);
-        return Optional.of(AddressResponse.builder()
-                .street("Street")
-                .city("City")
-                .state("State")
-                .zipCode("ZipCode")
-                .country("Country")
-                .fallback(true)
-                .build());
     }
 
 }

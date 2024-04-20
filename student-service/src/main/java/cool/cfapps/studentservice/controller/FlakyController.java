@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/v1/flaky")
@@ -32,5 +33,11 @@ public class FlakyController {
     public ResponseEntity<List<FlakyDto>> getAllFlaky() {
         log.info("getAllFlaky");
         return ResponseEntity.ok(flakyService.getAllFlaky());
+    }
+
+    @GetMapping("/version")
+    public CompletableFuture<String> getVersionFlaky() {
+        log.info("getVersionFlaky");
+        return flakyService.getVersionFlaky();
     }
 }

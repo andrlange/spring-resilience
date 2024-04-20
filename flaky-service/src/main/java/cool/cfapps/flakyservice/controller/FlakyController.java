@@ -48,4 +48,10 @@ public class FlakyController {
         return flakyService.getFlakyDtoByCode(code).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 
     }
+
+    @GetMapping("/version")
+    public String getVersion() {
+        try {Thread.sleep(5000);} catch (InterruptedException e) {e.printStackTrace();}
+        return "1.0.0";
+    }
 }
