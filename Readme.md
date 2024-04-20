@@ -16,7 +16,7 @@ RESILIENCE4J)
 - Eureka Service Discovery
 - Config Server
 - Spring Cloud Gateway
-- Microservice Template to jumpstart all needed microservices
+- Provided microservices to jumpstart testing
 
 ## Distributed Tracing
 
