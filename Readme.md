@@ -30,7 +30,7 @@ RESILIENCE4J)
 - Bulkhead
 - Retry
 - Rate Limiter
-- Timeout Limiter
+- Time Limiter
 
 ## App Monitoring
 
@@ -58,7 +58,7 @@ Services:
 - Spring Cloud Config Server using https://github.com/andrlange/spring-resilience.git path=config
 - Spring Cloud Gateway for routing and load balancing (Actuators, Zipkin and Micrometer)
 - Student-Service (resilience4j, Spring AOP, Circuit Breaker, Feign Client, Actuators, Zipkin and Micrometer, Retry, 
-  Bulkhead, TimeoutLimiter)
+  Bulkhead, TimeLimiter)
 - Address-Service (Actuators, Zipkin and Micrometer, RateLimiter)
 - Flaky-Service (Actuators, Zipkin and Micrometer) returns Randomly Courses
 
@@ -268,9 +268,9 @@ As soon we stay on responsive calls the Circuit Breaker will change again to CLO
 ***
 
 
-## Resilience4J - Timeout Limiter
+## Resilience4J - Time Limiter
 
-To use TimeoutLimiter we want to call a very slow API endpoint. The /version endpoint of Flaky Servie will take 5
+To use TimeLimiter we want to call a very slow API endpoint. The /version endpoint of Flaky Servie will take 5
 seconds to return.
 
 - http://localhost:9000/flaky-service/flaky/version
