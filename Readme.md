@@ -1,7 +1,9 @@
 # Spring Resilience Demo
 
 (EUREKA, SPRING CLOUD CONFIG SERVER, SPRING CLOUD GATEWAY, CIRCUIT BREAKER, ACTUATORS, MICROMETER, ZIPKIN, FEIGN, 
-RESILIENCE4J)
+RESILIENCE4J, KAFKA)
+
+Microservice Communication via REST/API & KAFKA
 
 #### Powered by: Spring Boot 3.2.5 and Spring Cloud 2023.0.1
 
@@ -21,7 +23,7 @@ RESILIENCE4J)
 
 - Spring Boot Actuators
 - Micrometer (former Sleuth)
-- Zipkin
+- Zipkin for HTTP & KAFKA 
 
 ## Resilience4J
 
@@ -43,7 +45,7 @@ RESILIENCE4J)
 ![Resilience Demo](images/resilience-demo.png)
 
 ## Setup
-- you can run PostgreSQL, PGAdmin, Zipkin, Prometheus and Grafana using the docker-compose.yaml
+- you can run PostgreSQL, PGAdmin, Zipkin, Zookepper, Kafka, Prometheus and Grafana using the docker-compose.yaml
 - Additional Databases (addresses, students) are created on first postgres startup
 
 PostgreSQL, PGAdmin and Zipkin is started using docker compose up -d
@@ -175,6 +177,41 @@ Steps:
 You should see a Spring Boot Dashboard showing metrics from flaky-service (Instance:host.docker.internal:8085)
 ![Grafana Flaky](images/grafana-flaky.png)
 
+***
+
+## Kafka & Microservices
+
+We use the embedded Kafka integration to demonstrate distributed tracing using kafka topics instead of REST/HTTP.
+
+Student Service provides a News-Message REST endpoint to send messages to the Address Service
+
+Use:
+```
+curl -i -X POST localhost:9000/student-service/api/v1/news \
+  -H 'Content-Type: application/json' \
+  -d '{"title":"Article about Spring Cloud Stream and Kafka"}'
+```
+to send a message:
+
+curl >> (REST) >> Spring Cloud Gateway >> (REST) >> Student Service >> [news-out-0] (CLOUD MESSAGING) [news-in-0] >>
+Address Service
+
+The Address Service retrieves the message:
+![News retrieved](images/kafka-received.png)
+
+### Distributed Tracing using Zipkin for Microservice Communication using Kafka Cloud Messaging
+
+We only needed to add the Kafka observation to our configuration, so tracing over cloud messaging will be enabled.
+
+Added this to our configuration (producer, consumer)
+```properties
+spring.cloud.stream.kafka.binder.enable-observation=true
+```
+
+Now we can see the distributed tracing using Zipkin (use the traceId):
+![Kafka Tracing](images/zipkin-kafka.png)
+
+***
 
 ## Resilience4J - Retry
 
