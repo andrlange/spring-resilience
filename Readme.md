@@ -5,7 +5,6 @@ RESILIENCE4J)
 
 #### Powered by: Spring Boot 3.2.5 and Spring Cloud 2023.0.1
 
-(Maintainer: Andreas Lange)
 
 ***
 
