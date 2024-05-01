@@ -4,6 +4,9 @@ server:
 spring:
   lifecycle:
     timeout-per-shutdown-phase: 5s
+  redis:
+    host: localhost
+    port: 6379
   cloud:
     gateway:
       discovery:
