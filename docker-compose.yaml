@@ -83,3 +83,11 @@ services:
     healthcheck:
       test: [ "CMD", "nc", "-z", "localhost", "9092" ]
 
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PORT=6379
+
