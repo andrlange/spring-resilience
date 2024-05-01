@@ -87,7 +87,7 @@ address microservices on different ports.
 
 ***
 
-## Prepare HA using Eureka Service Discovery
+## Prepare Eureka Service Discovery with Replication
 To run eureka with replication between instances on the same host requires to configure two hostnames on the same IP 
 Address.
 
