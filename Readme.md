@@ -14,7 +14,7 @@ Microservice Communication via REST/API & KAFKA
 
 ## Microservice Ecosystem
 
-- Eureka Service Discovery (Using HA 2 Instances)
+- Eureka Service Discovery (Using 2 Instances Replication)
 - Config Server
 - Spring Cloud Gateway (Using Redis for RateLimiter)
 - Provided microservices to jumpstart testing
