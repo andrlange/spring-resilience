@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/andrlange/spring-resilience.git
+          default-label: main
+          search-paths: config
+          clone-on-start: true
+
+server:
+  port: 8888
+
+# Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone:  http://eureka:password@eureka1:8761/eureka/, http://eureka:password@eureka2:8762/eureka/
+    should-unregister-on-shutdown: false
+  instance:
+    prefer-ip-address: true

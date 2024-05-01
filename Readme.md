@@ -14,7 +14,7 @@ Microservice Communication via REST/API & KAFKA
 
 ## Microservice Ecosystem
 
-- Eureka Service Discovery
+- Eureka Service Discovery (Using HA 2 Instances)
 - Config Server
 - Spring Cloud Gateway
 - Provided microservices to jumpstart testing
@@ -76,7 +76,7 @@ Note: to run multiple services for each, just export PORT=80xx to your environme
 address microservices on different ports.
 
 ## URLs
-- Eureka > http://localhost:8761
+- Eureka > http://eureka1:8761 & http://eureka2:8762
 - Zipkin > http://localhost:9411
 - PGAdmin: http://localhost:5555
 - Prometheus: http://localhost:9090
@@ -87,19 +87,41 @@ address microservices on different ports.
 
 ***
 
+## Prepare HA using Eureka Service Discovery
+To run eureka with replication between instances on the same host requires to configure two hostnames on the same IP 
+Address.
+
+Configure your /etc/hosts for Mac or Linux and C:\Windows\System32\Drivers\etc\hosts for Windows:
+```shell
+127.0.0.1 localhost eureka1 eureka2
+```
+
+Both instances can run on the same host using two different hostnames.
+
 ## Start the Service Discovery
-Start the eureka server by changing to the eureka folder and run:
+Start the eureka server by changing to the eureka folders and run:
+- eureka-server
+- eureka-server-ha
+
 ```bash
 mvn spring-boot:run
 ```
-You should be able to open the UI of Eureka http://localhost:8761
+
+
+You should be able to open the UI of Eureka http://eureka:8761 and http://eureka2:8762
+
 
 Username: eureka Password: password
-![Eureka Server](images/eureka-plain.png)
+![Eureka Server](images/eureka-ha.png)
+
+You should see two replicated instances: EUREKA-SERVER
+and on each site one available-replicas: example -  http://eureka2:8762/eureka/
 
 ***
 
 ## Start the Config Server
+
+use the config server folder config-server to start:
 
 ```bash
 mvn spring-boot:run
