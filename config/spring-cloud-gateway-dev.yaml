@@ -1,0 +1,58 @@
+server:
+  port: 9000
+
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 5s
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          lower-case-service-id: true
+          enabled: true
+      routes:
+      - id: flaky-service
+        uri: lb://flaky-service
+        predicates:
+        - Path=/flaky/books/**
+        filters:
+
+
+
+# Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone:  http://eureka:password@eureka1:8761/eureka/, http://eureka:password@eureka2:8762/eureka/
+    should-unregister-on-shutdown: false
+  instance:
+    prefer-ip-address: true
+
+  #Actuators
+management:
+  endpoint:
+    info:
+      enabled: true
+    metrics:
+      enabled: true
+    health:
+      group:
+        custom:
+          show-components: always
+          show-details: always
+  info:
+    java:
+      enabled: true
+    os:
+      enabled: true
+  tracing:
+    sampling:
+      probability: 1.0
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server:
+          requests: true
+  zipkin:
+    tracing:
+      endpoint: http://${ZIPKIN_HOST:localhost}:${ZIPKIN_PORT:9411}/api/v2/spans

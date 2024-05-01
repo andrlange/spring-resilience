@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+
+record Book(String title){}
 
 @RestController
 @RequestMapping("/flaky")
@@ -53,5 +56,11 @@ public class FlakyController {
     public String getVersion() {
         try {Thread.sleep(5000);} catch (InterruptedException e) {e.printStackTrace();}
         return "1.0.0";
+    }
+
+    @GetMapping("/books")
+    public ResponseEntity<List<Book>> getBooks() {
+        return ResponseEntity.ok(new ArrayList<>(List.of(new Book("Lord of the Rings"), new Book("Hobbit"),
+                new Book("Silmarillion"))));
     }
 }
