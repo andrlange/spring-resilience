@@ -17,8 +17,8 @@ spring:
         - name: RequestRateLimiter
           args:
             redis-rate-limiter:
-              replenishRate: 2
-              burstCapacity: 3
+              replenishRate: 10
+              burstCapacity: 15
               requestToken: 1
       routes:
       - id: flaky-service
