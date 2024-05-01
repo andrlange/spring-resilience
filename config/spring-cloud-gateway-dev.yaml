@@ -25,7 +25,6 @@ spring:
         uri: lb://flaky-service
         predicates:
         - Path=/flaky/books/**
-        filters:
 
 
 
