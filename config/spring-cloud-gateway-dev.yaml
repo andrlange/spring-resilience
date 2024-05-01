@@ -10,6 +10,13 @@ spring:
         locator:
           lower-case-service-id: true
           enabled: true
+      default-filters:
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter:
+              replenishRate: 10
+              burstCapacity: 20
+              requestToken: 1
       routes:
       - id: flaky-service
         uri: lb://flaky-service
