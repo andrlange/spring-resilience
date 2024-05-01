@@ -76,8 +76,8 @@ Note: to run multiple services for each, just export PORT=80xx to your environme
 address microservices on different ports.
 
 ## URLs
-- Eureka > http://eureka1:8761 & http://eureka2:8762
-- Zipkin > http://localhost:9411
+- Eureka : http://eureka1:8761 & http://eureka2:8762
+- Zipkin : http://localhost:9411
 - PGAdmin: http://localhost:5555
 - Prometheus: http://localhost:9090
 - Grafana: http://localhost:3000
