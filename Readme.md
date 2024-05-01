@@ -16,7 +16,7 @@ Microservice Communication via REST/API & KAFKA
 
 - Eureka Service Discovery (Using HA 2 Instances)
 - Config Server
-- Spring Cloud Gateway
+- Spring Cloud Gateway (Using Redis for RateLimiter)
 - Provided microservices to jumpstart testing
 
 ## Distributed Tracing
@@ -45,7 +45,7 @@ Microservice Communication via REST/API & KAFKA
 ![Resilience Demo](images/resilience-demo.png)
 
 ## Setup
-- you can run PostgreSQL, PGAdmin, Zipkin, Zookepper, Kafka, Prometheus and Grafana using the docker-compose.yaml
+- you can run PostgreSQL, PGAdmin, Zipkin, Zookepper, Kafka, Redis, Prometheus and Grafana using the docker-compose.yaml
 - Additional Databases (addresses, students) are created on first postgres startup
 
 PostgreSQL, PGAdmin and Zipkin is started using docker compose up -d
@@ -283,6 +283,120 @@ The Address Service log shows the call sequence and the limiting:
 
 The response will provide a HTTP:429 Error and a Fall-Back Object (NULL)
 ![Rate Limiter Response](images/rate-limiter-response.png)
+
+### RateLimiter using Spring Cloud Gateway
+
+Now we used RateLimiter with Resilience4J in our Microservice we will use RateLimiter as a Cross Cutting Concern in 
+our Spring Cloud Gateway:
+
+/config/spring-cloud-gatway-dev.yaml
+```yaml
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 5s
+  redis:
+    host: localhost
+    port: 6379
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          lower-case-service-id: true
+          enabled: true
+      default-filters:
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter:
+              replenishRate: 10
+              burstCapacity: 20
+              requestToken: 1
+      routes:
+      - id: flaky-service
+        uri: lb://flaky-service
+        predicates:
+        - Path=/flaky/books/**
+```
+This configuration adds a global default filter (RateLimiter) based on Redis with 10 calls/s and peak 20 
+calls/s.
+
+We use ab to check the Gateway based Ratelimiter:
+```shell
+andreas@AL-MBP16-2 resilience % ab -n 21 -c 21 http://localhost:9000/flaky-service/flaky/books
+This is ApacheBench, Version 2.3 <$Revision: 1903618 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient).....done
+
+
+Server Software:        
+Server Hostname:        localhost
+Server Port:            9000
+
+Document Path:          /flaky-service/flaky/books
+Document Length:        86 bytes
+
+Concurrency Level:      21
+Time taken for tests:   0.043 seconds
+Complete requests:      21
+Failed requests:        1
+   (Connect: 0, Receive: 0, Length: 1, Exceptions: 0)
+Non-2xx responses:      1
+Total transferred:      7066 bytes
+HTML transferred:       1720 bytes
+Requests per second:    493.46 [#/sec] (mean)
+Time per request:       42.557 [ms] (mean)
+Time per request:       2.027 [ms] (mean, across all concurrent requests)
+Transfer rate:          162.14 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    1   0.3      1       1
+Processing:     9   19   6.7     18      30
+Waiting:        8   18   6.7     17      30
+Total:          9   19   6.6     18      30
+
+Percentage of the requests served within a certain time (ms)
+  50%     18
+  66%     22
+  75%     25
+  80%     26
+  90%     28
+  95%     29
+  98%     30
+  99%     30
+ 100%     30 (longest request)
+
+```
+we can see the 21st call was dropped as failed call.
+
+Because we allow to response the Gateway with limiter header the output of a single request looks like:
+
+```bash
+http :9000/flaky-service/flaky/books
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Wed, 01 May 2024 12:20:45 GMT
+X-RateLimit-Burst-Capacity: 20
+X-RateLimit-Remaining: 19
+X-RateLimit-Replenish-Rate: 10
+X-RateLimit-Requested-Tokens: 1
+transfer-encoding: chunked
+
+[
+    {
+        "title": "Lord of the Rings"
+    },
+    {
+        "title": "Hobbit"
+    },
+    {
+        "title": "Silmarillion"
+    }
+]
+```
+
+Each independent client get its own bucket on redis and can use the configured amount of tokens per second.
 
 ***
 
