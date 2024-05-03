@@ -45,7 +45,7 @@ Microservice Communication via REST/API & KAFKA
 ![Resilience Demo](images/resilience-demo.png)
 
 ## Setup
-- you can run PostgreSQL, PGAdmin, Zipkin, Zookepper, Kafka, Redis, Prometheus and Grafana using the docker-compose.yaml
+- you can run PostgreSQL, PGAdmin, Zipkin, Zookeeper, Kafka, Redis, Prometheus and Grafana using the docker-compose.yaml
 - Additional Databases (addresses, students) are created on first postgres startup
 
 PostgreSQL, PGAdmin and Zipkin is started using docker compose up -d
