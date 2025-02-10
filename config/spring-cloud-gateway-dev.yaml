@@ -40,6 +40,10 @@ eureka:
 
 #Actuators
 management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
   endpoint:
     info:
       enabled: true
