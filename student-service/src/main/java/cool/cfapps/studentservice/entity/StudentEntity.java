@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class StudentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "serial")
+    //@Column(columnDefinition = "serial") removed due to PostgreSQL 17
     private long id;
     private String firstName;
     private String lastName;

@@ -5,7 +5,7 @@ RESILIENCE4J, KAFKA)
 
 Microservice Communication via REST/API & KAFKA
 
-#### Powered by: Spring Boot 3.2.5 and Spring Cloud 2023.0.1
+#### Powered by: Spring Boot 3.4.2 and Spring Cloud 2024.0.0
 
 
 ***

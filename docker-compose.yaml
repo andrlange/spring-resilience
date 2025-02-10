@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
   postgresql-services:
-    image: postgres:16.0-alpine
+    image: postgres:17-alpine
     container_name: postgresql-services
     restart: unless-stopped
     environment:
@@ -17,7 +15,7 @@ services:
       - "5554:5432"
 
   pgadmin:
-    image: dpage/pgadmin4:8.5
+    image: dpage/pgadmin4:9.0
     environment:
       PGADMIN_DEFAULT_EMAIL: user@example.de
       PGADMIN_DEFAULT_PASSWORD: password
@@ -57,7 +55,7 @@ services:
       - './vols/grafana/:/opt/bitnami/grafana/data/'
 
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.6.1
+    image: confluentinc/cp-zookeeper:7.8.0
     container_name: zookeeper
     restart: unless-stopped
     ports:
@@ -68,7 +66,7 @@ services:
       test: "echo stat | nc localhost $$ZOOKEEPER_CLIENT_PORT"
 
   kafka:
-    image: confluentinc/cp-kafka:7.6.1
+    image: confluentinc/cp-kafka:7.8.0
     container_name: kafka
     restart: unless-stopped
     depends_on:
@@ -84,7 +82,7 @@ services:
       test: [ "CMD", "nc", "-z", "localhost", "9092" ]
 
   redis:
-    image: bitnami/redis:latest
+    image: bitnami/valkey:latest
     restart: always
     ports:
       - "6379:6379"

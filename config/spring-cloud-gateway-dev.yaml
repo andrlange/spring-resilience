@@ -37,8 +37,15 @@ eureka:
   instance:
     prefer-ip-address: true
 
-  #Actuators
+
+
+
+#Actuators
 management:
+  endpoints:
+    web:
+      exposure:
+        include: *
   endpoint:
     info:
       enabled: true

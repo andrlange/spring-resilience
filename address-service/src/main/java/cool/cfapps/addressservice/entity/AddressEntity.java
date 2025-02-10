@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class AddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "serial")
+    //@Column(columnDefinition = "serial") removed due to PostgreSQL 17
     private Long id;
     private String street;
     private String city;
